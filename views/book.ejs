@@ -1,0 +1,89 @@
+
+    <%- include("./partials/head.ejs") %>
+
+    <section>
+            <div class="preview">
+                <img src="<%= json.volumeInfo.imageLinks.thumbnail %>" alt="" width="200px">
+                <div class="para">
+                    <h1 name="title"><%= json.volumeInfo.title %></h1>
+                    <p name="id"><%= json.volumeInfo.description %></p>
+                    <p id="cat"><%= json.volumeInfo.categories[0] %></p>
+                    <div class="links">
+                        <a href="<%= json.accessInfo.pdf.acsTokenLink %>" class="fa fa-download"></a>
+                        <a href="/add-book/<%= json.volumeInfo.title %>" class="fa fa-heart"></a>
+                        <a href="<%= json.volumeInfo.previewLink %>">Read more...</a>
+                    </div>
+                </div>
+            </div>
+
+            <h1 id="similar">Similar books </h1>
+            <div class="archive">
+            </div>
+    </section>
+
+    <script>
+        let cat = document.getElementById("cat")
+        fetch(`https://www.googleapis.com/books/v1/volumes?q=category:${cat.textContent}=free-ebooks&download=epub&maxResults=4&key=AIzaSyAZk8N4z-fuCQIE77yb9ygLTJGokG8QpKQ`)
+        .then(res => res.json())
+        .then(json => {
+            createbooks(json)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        function createbooks(json) {
+        
+                for(var i=0; i<json.items.length; i++) {
+                    let h1 = document.createElement("h1");
+                    let img = document.createElement("img");
+                    let p1 = document.createElement("p");
+                    let p2 = document.createElement("p");
+                    let bookContainer = document.createElement("a");
+                    let bookContainerTexts = document.createElement("div");
+                    let heart = document.createElement("a");
+                    let download = document.createElement("a");
+                    let preview = document.createElement("a");
+
+                    bookContainer.className = "book";
+                    bookContainerTexts.className = "bookTexts";
+                    p1.className = "author";
+                    p2.className = "date";
+                    heart.classList = "fa fa-heart";
+                    heart.title = "Save book in collection";
+                    download.classList = "fa fa-file-o";
+                    download.title = "download book";
+                    preview.classList = "fa fa-eye";
+                    preview.title = "preview book";
+
+
+                    img.src = json.items[i].volumeInfo.imageLinks.smallThumbnail;
+                    h1.textContent = json.items[i].volumeInfo.title;
+                    p1.textContent = json.items[i].volumeInfo.authors;
+                    p2.textContent = json.items[i].volumeInfo.publishedDate;
+                    preview.href = json.items[i].volumeInfo.previewLink;
+                    bookContainer.href = "/book/" +json.items[i].volumeInfo.title;
+                    heart.href = "/add-book/" + json.items[i].volumeInfo.title;
+                    if(json.items[i].accessInfo.pdf.isAvailable === true) {
+                        download.href = json.items[i].accessInfo.pdf.acsTokenLink;
+                    } else {
+                        download.href = "#";
+                    }
+
+
+                    bookContainer.appendChild(img);
+                    bookContainerTexts.appendChild(h1);
+                    bookContainerTexts.appendChild(p1);
+                    bookContainerTexts.appendChild(p2);
+                    bookContainerTexts.appendChild(heart);
+                    bookContainerTexts.appendChild(preview);
+                    bookContainerTexts.appendChild(download);
+                    bookContainer.appendChild(bookContainerTexts);
+                    
+                    let book = document.querySelector("section .archive");
+                    book.appendChild(bookContainer);
+            }        
+        }
+    </script>
+
+
+    <%- include("./partials/foot.ejs") %>

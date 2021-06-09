@@ -1,0 +1,88 @@
+
+    <%- include("./partials/head.ejs") %>
+<div class="front-text saved">
+    <h1>Saved</h1>
+    <h1>Books</h1>
+</div>
+    
+    <section class="archive">
+        <div class="preview">
+            <% result.forEach(book => { %>
+                <h1 class="title"><%= book.title %></h1>
+                <h1 class="id"><%= book.id %></h1>
+           <% }) %>
+         </div>
+
+
+</section>
+
+<script>
+ 
+    let titles = document.querySelectorAll("section .preview h1.title");
+    let bookId = document.querySelectorAll("section .preview h1.id");
+    
+for(let i=0; i<titles.length; i++) {
+        fetch(`https://www.googleapis.com/books/v1/volumes?q=${titles[i].textContent}&maxResults=1&key=AIzaSyAZk8N4z-fuCQIE77yb9ygLTJGokG8QpKQ`)
+        .then(res => res.json())
+        .then(json => {
+                    let h1 = document.createElement("h1");
+                    let img = document.createElement("img");
+                    let p1 = document.createElement("p");
+                    let p2 = document.createElement("p");
+                    let bookContainer = document.createElement("a");
+                    let bookContainerTexts = document.createElement("div");
+                    let download = document.createElement("a");
+                    let preview = document.createElement("a");
+                    let deleteBook = document.createElement("a");
+                    let book = document.createElement("div");
+
+                    book.className = "archive-book";
+                    bookContainer.className = "book";
+                    bookContainerTexts.className = "bookTexts";
+                    p1.className = "author";
+                    p2.className = "date";
+                    download.classList = "fa fa-file-o";
+                    download.title = "download book";
+                    preview.classList = "fa fa-eye";
+                    preview.title = "preview book";
+                    deleteBook.classList = "fa fa-trash-o";
+                    deleteBook.title = "delete book";
+
+
+                    img.src = json.items[0].volumeInfo.imageLinks.smallThumbnail;
+                    h1.textContent = json.items[0].volumeInfo.title;
+                    p1.textContent = json.items[0].volumeInfo.authors;
+                    p2.textContent = json.items[0].volumeInfo.publishedDate;
+                    preview.href = json.items[0].volumeInfo.previewLink;
+                    bookContainer.href = "/book/" + json.items[0].volumeInfo.title;
+                    if(json.items[0].accessInfo.pdf.isAvailable === true) {
+                        download.href = json.items[0].accessInfo.pdf.acsTokenLink;
+                    } else {
+                        download.href = "#";
+                    }
+                    deleteBook.href = `/delete/${bookId[i].textContent}`;
+
+
+                    bookContainer.appendChild(img);
+                    bookContainerTexts.appendChild(h1);
+                    bookContainerTexts.appendChild(p1);
+                    bookContainerTexts.appendChild(p2);
+                    bookContainerTexts.appendChild(preview);
+                    bookContainerTexts.appendChild(deleteBook);
+                    bookContainerTexts.appendChild(download);
+                    bookContainer.appendChild(bookContainerTexts);
+                    book.appendChild(bookContainer);
+
+                    let section = document.querySelector("section");
+                    let shows = document.querySelector("section .preview");
+                    section.appendChild(book);
+                    shows.style.display = "none";
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+</script>
+
+    <%- include("./partials/foot.ejs") %>

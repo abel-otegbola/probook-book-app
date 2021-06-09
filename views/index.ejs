@@ -1,0 +1,190 @@
+
+    <%- include("./partials/head.ejs") %>
+
+    <section>
+        <div class="front-text">
+            <h1>Bouquin</h1>
+            <h1>Collections</h1>
+            <p>Your collection of every type of book ranging from inspirational
+            , historical, scientific, comedy, Fantasy, war, romance and lots more</p>
+            
+            <input type="text" placeholder="SEARCH BOOKS" class="search" id="search">
+        </div>
+        <aside>
+            <i class="fa fa-navicon"></i>
+            <div class="sidebar"> 
+                <div class="logo">
+                    <img src="/img/books_logo.png" alt="" width="20px" height="25px">
+                    <h4>PRO <span>BOOKS</span></h4>
+                </div>
+                <nav>
+                    <ul>
+                        <li class="active"><i class="fa fa-fire"></i> FANTASY</li>
+                        <li><i class="fa fa-plus-square"></i> ADVENTURE</li>
+                        <li><i class="fa fa-search"></i> DISCOVERY</li>
+                        <li><i class="fa fa-wrench"></i> ENGINEERING</li>
+                        <li><i class="fa fa-list"></i> HISTORY</li>
+                        <li><i class="fa fa-user"></i> CHILDREN</li>
+                        <li><i class="fa fa-bomb"></i> WAR</li>
+                        <li><i class="fa fa-dollar"></i> FINANCE</li>
+                        <li><i class="fa fa-book"></i> EDUCATION</li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="books-container" id="books">
+                <div class="topbar">
+                    <h1>Popular</h1>
+                    <div class="sort">
+                        <a href="#search" class="search">SEARCH</a>
+                        <a href="#" class="filter">FILTER</a>
+                    </div>
+                </div>
+
+                <div class="books">
+                    <img src="/img/bookg.png" alt="" width="40%" class="notfound"></br>
+                </div>
+            </div>
+    </aside>
+    </section>
+
+
+    
+    <script>
+
+        function categorySearch(){
+            let menuLists = document.querySelectorAll(".container header nav ul li ul li a, .container section aside .sidebar nav ul li");
+
+
+            var menu = Array.from(menuLists);
+
+            for(var i=0; i<menu.length; i++) {
+                menu[i].onclick = function(){
+                    for(var x=0; x<menu.length; x++){
+                        menu[x].classList.remove("active");
+                    }
+                    this.classList.add("active");
+                    fetch(`https://www.googleapis.com/books/v1/volumes?q=category:${this.textContent.toLowerCase()}=free-ebooks&download=epub&maxResults=30&key=AIzaSyAZk8N4z-fuCQIE77yb9ygLTJGokG8QpKQ`)
+                    .then(response => response.json())
+                    .then(result => {
+                        createbooks(result);
+                        }
+                    )
+                    .catch(err => {
+                        console.log(err);
+                        offlineErr();
+                    })
+
+                    header.textContent = this.textContent;
+                }
+            }
+            
+
+
+        }
+            categorySearch();
+
+        window.addEventListener("load", function() {
+                let randomNumber = Math.floor(Math.random() * 10);
+
+            fetch(`https://www.googleapis.com/books/v1/volumes?q=category:${cat[randomNumber].toLowerCase()}=free-ebooks&download=epub&maxResults=30&key=AIzaSyAZk8N4z-fuCQIE77yb9ygLTJGokG8QpKQ`)
+            .then(response => response.json())
+            .then(result => {
+                createbooks(result);
+            })
+            .catch(err => {
+                console.log(err);
+                offlineErr();
+            })
+
+            header.textContent = cat[randomNumber];
+
+        })
+
+        let search = document.querySelector(".container section .front-text .search");
+        let header = document.querySelector(".container section aside .books-container .topbar h1");
+
+        search.addEventListener("change", function() {
+            fetch(`https://www.googleapis.com/books/v1/volumes?q=${search.value.toLowerCase()}=free-ebooks&download=epub&maxResults=30&key=AIzaSyAZk8N4z-fuCQIE77yb9ygLTJGokG8QpKQ`)
+            .then(response => response.json())
+            .then(result => {
+                createbooks(result);
+            }, true)
+            .catch(err => {
+                console.log(err);
+                offlineErr();
+            })
+            header.textContent = search.value;
+        })
+    
+    
+    
+        function createbooks(result) {
+        
+            let book = document.querySelector(".container section aside .books");
+                book.innerHTML = "";
+                for(var i=0; i<result.items.length; i++) {
+                    let h1 = document.createElement("h1");
+                    let img = document.createElement("img");
+                    let p1 = document.createElement("p");
+                    let p2 = document.createElement("p");
+                    let bookContainer = document.createElement("a");
+                    let bookContainerTexts = document.createElement("div");
+                    let heart = document.createElement("a");
+                    let download = document.createElement("a");
+                    let preview = document.createElement("a");
+
+                    bookContainer.className = "book";
+                    bookContainerTexts.className = "bookTexts";
+                    p1.className = "author";
+                    p2.className = "date";
+                    heart.classList = "fa fa-heart";
+                    heart.title = "Save book in collection";
+                    download.classList = "fa fa-file-o";
+                    download.title = "download book";
+                    preview.classList = "fa fa-eye";
+                    preview.title = "preview book";
+
+
+                    img.src = result.items[i].volumeInfo.imageLinks.smallThumbnail;
+                    h1.textContent = result.items[i].volumeInfo.title;
+                    p1.textContent = result.items[i].volumeInfo.authors;
+                    p2.textContent = result.items[i].volumeInfo.publishedDate;
+                    preview.href = result.items[i].volumeInfo.previewLink;
+                    bookContainer.href = "/book/" + result.items[i].volumeInfo.title;
+                    heart.href = "/add-book/" + result.items[i].volumeInfo.title;
+                    if(result.items[i].accessInfo.pdf.isAvailable === true) {
+                        download.href = "https://ebook.online-convert.com/convert/ascm-to-pdf/" + result.items[i].accessInfo.pdf.acsTokenLink;
+                    } else {
+                        download.href = "#";
+                    }
+
+
+                    bookContainer.appendChild(img);
+                    bookContainerTexts.appendChild(h1);
+                    bookContainerTexts.appendChild(p1);
+                    bookContainerTexts.appendChild(p2);
+                    bookContainerTexts.appendChild(heart);
+                    bookContainerTexts.appendChild(preview);
+                    bookContainerTexts.appendChild(download);
+                    bookContainer.appendChild(bookContainerTexts);
+                    book.appendChild(bookContainer);
+                    
+            }        
+            
+        }
+
+        function offlineErr() {
+                let text = document.querySelector(".container section aside .books");
+                let p = document.createElement("p");
+                    p.className = "err";
+                    p.textContent ="";
+                    p.textContent = "Sorry your internet is off.put it on and search again";
+                   
+                    text.appendChild(p);
+        }
+
+        let cat = ["Fantasy", "War", "Romance", "Comedy", "Lifestyle", "Movies", "History", "Actions", "Adventures", "Engineering", "Science"];
+
+        let bookspace = document.getElementsByClassName("books")
+    </script>
+    <%- include("./partials/foot.ejs") %>
