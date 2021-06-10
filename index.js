@@ -4,8 +4,9 @@ const app = express();
 const mongoose = require("mongoose");
 const fetch = require("node-fetch");
 const Book = require("./modules/book")
+require("dotenv").config();
 
-
+const port = process.env.PORT || 3000;
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -13,9 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const dbUrl = "mongodb+srv://Abel:1234@nodetut.9kowg.mongodb.net/Abel-books?retryWrites=true&w=majority";
-mongoose.connect(dbUrl, {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.dbUrl, {useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => {
-        app.listen(3000);
+        
     })
     .catch((err) => {
         console.log(err)
@@ -75,3 +76,4 @@ app.get("/delete/:id", (req, res) => {
 app.use((req, res) => {
     res.render("404", { title: "page not found" })
 })
+app.listen(port);
