@@ -111,7 +111,7 @@ header .user .man img {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url("img/background2.gif");
+    background-image: url("img/background.png");
     background-size: cover;
     background-position-y: -60px;
 }
