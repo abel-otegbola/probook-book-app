@@ -13,14 +13,14 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 
-const dbUrl = process.env.dbUrl;
-mongoose.connect(dbUrl, {useNewUrlParser: true, useUnifiedTopology: true })
-    .then((result) => {
-        
+mongoose.connect(process.env.dbUrl || "mongodb+srv://Abel:1234@nodetut.9kowg.mongodb.net/Abel-books?retryWrites=true&w=majority", 
+    {
+        useNewUrlParser: true, 
+        useUnifiedTopology: true 
     })
-    .catch((err) => {
-        console.log(err)
-    })
+mongoose.connection.on("connected", () => {
+    console.log("mongoose is connected")
+})
 
 app.get("/", (req, res) => {
     res.render("index", { title: "home" })
