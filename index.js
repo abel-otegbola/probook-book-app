@@ -13,7 +13,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 
-const dbUrl = "mongodb+srv://Abel:1234@nodetut.9kowg.mongodb.net/Abel-books?retryWrites=true&w=majority";
+const dbUrl = process.env.dbUrl;
 mongoose.connect(dbUrl, {useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => {
         
