@@ -57,6 +57,7 @@
 
 
                     img.src = json.items[i].volumeInfo.imageLinks.smallThumbnail;
+                    img.alt = json.items[i].volumeInfo.title;
                     h1.textContent = json.items[i].volumeInfo.title;
                     p1.textContent = json.items[i].volumeInfo.authors;
                     p2.textContent = json.items[i].volumeInfo.publishedDate;

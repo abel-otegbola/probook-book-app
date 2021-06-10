@@ -146,6 +146,7 @@
 
 
                     img.src = result.items[i].volumeInfo.imageLinks.smallThumbnail;
+                    img.alt = result.items[i].volumeInfo.title;
                     h1.textContent = result.items[i].volumeInfo.title;
                     p1.textContent = result.items[i].volumeInfo.authors;
                     p2.textContent = result.items[i].volumeInfo.publishedDate;

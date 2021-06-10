@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const dbUrl = "mongodb+srv://Abel:1234@nodetut.9kowg.mongodb.net/Abel-books?retryWrites=true&w=majority";
-mongoose.connect(process.env.dbUrl, {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbUrl, {useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => {
         
     })
