@@ -5,6 +5,19 @@
 
     </div><!-- container -->
 
-    <script src="/script.js"></script>
+    
+    <script>
+        let menuButton = document.querySelector(".container header .fa-navicon")
+        let menu = document.querySelector(".container header nav")
+
+        menuButton.addEventListener("click", function() {
+            if(menu.style.display == "block") {
+                menu.style.display = "none";
+            }
+            else {
+                menu.style.display = "block";
+            }
+        })
+    </script>
 </body>
 </html>
