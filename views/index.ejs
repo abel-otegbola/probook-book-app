@@ -187,5 +187,18 @@
         let cat = ["Fantasy", "War", "Romance", "Comedy", "Lifestyle", "Movies", "History", "Actions", "Adventures", "Engineering", "Science"];
 
         let bookspace = document.getElementsByClassName("books")
+        
+        
+        let sidemenuButton = document.querySelector(".container section aside .fa-navicon")
+        let sidemenu = document.querySelector(".container section aside .sidebar")
+
+        sidemenuButton.addEventListener("click", function() {
+            if(sidemenu.style.display == "block") {
+                sidemenu.style.display = "none";
+            }
+            else {
+                sidemenu.style.display = "block";
+            }
+        })
     </script>
     <%- include("./partials/foot.ejs") %>
