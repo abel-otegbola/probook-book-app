@@ -490,6 +490,7 @@ footer {
     }
     header i.fa {
         display: block;
+        z-index: 10;
     }
     header nav {
         display: none;
@@ -534,6 +535,7 @@ footer {
         position: absolute;
         left: 20px;
         top: 17px;
+        z-index: 30;
     }
     aside .books-container {
         width: 100%;
