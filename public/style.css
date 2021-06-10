@@ -276,11 +276,6 @@ section .books {
     font-size: 12px;
     padding: 10px 20px;
 }
-.books-container .topbar a.filter {
-    background: #36B0DE;
-    color: #fff;
-    padding: 15px 50px;
-}
 .book {
     text-align: center;
     box-shadow: 2px 5px 10px #b6d3dd;
@@ -376,10 +371,6 @@ footer {
     animation: spin 1s linear infinite;
     border-radius: 50%;
     margin: 30px auto;
-}
-@keyframes spin {
-    from {transform: rotateZ(0deg);}
-    to {transform: rotateZ(360deg);}
 }
 .preview {
     width: 80%;
@@ -502,6 +493,23 @@ footer {
     }
     header nav {
         display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        background: #fff;
+        z-index: 5;
+    }
+    header nav ul li{
+        padding: 10px;
+        display: block;
+    }
+    header nav ul li a {
+        padding: 10px;
+    }
+    header nav ul li a:hover {
+        background: #06a5df;
+        color: #fff;
     }
     p.err {
         font-size: 10px;
@@ -516,6 +524,10 @@ footer {
         background: #ffffff;
         border-radius: 15px 0 0 15px;
         display: none;
+        z-index: 20;
+    }
+    aside .sidebar .logo {
+        margin-left: 30px;
     }
     aside i.fa-navicon {
         display: block;
