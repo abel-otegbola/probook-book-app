@@ -13,7 +13,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 
-mongoose.connect(process.env.dbUrl || "mongodb+srv://Abel:1234@nodetut.9kowg.mongodb.net/Abel-books?retryWrites=true&w=majority", 
+mongoose.connect(process.env.MONGODB_URL, 
     {
         useNewUrlParser: true, 
         useUnifiedTopology: true 
