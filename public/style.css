@@ -489,8 +489,8 @@ footer {
     }
     section .books {
         display: grid;
-        grid-gap: 40px 20px;
-        grid-template-columns: repeat(auto-fit, minmax(90%, 1fr));
+        grid-gap: 40px 10px;
+        grid-template-columns: repeat(auto-fit, minmax(95%, 1fr));
         grid-auto-rows: auto;
         grid-auto-flow: dense;
         position: relative;
@@ -499,8 +499,8 @@ footer {
     }
     .archive {
         display: grid;
-        grid-gap: 40px 20px;
-        grid-template-columns: repeat(auto-fit, minmax(90%, 1fr));
+        grid-gap: 40px 10px;
+        grid-template-columns: repeat(auto-fit, minmax(95%, 1fr));
         grid-auto-rows: auto;
     }
     .book img {
