@@ -372,7 +372,7 @@ footer {
     to {transform: rotateZ(360deg);}
 }
 .preview {
-    width: 90%;
+    width: 97%;
     text-align: center;
     margin: 10% auto;
     display: flex;
@@ -380,7 +380,7 @@ footer {
     justify-content: center;
 }
 .para {
-    width: 70%;
+    width: 90%;
     margin: auto;
     text-align: justify;
 }
